@@ -17,9 +17,6 @@ class FrontController {
 		$this->request = Service::request();
 	}
 
-	protected function before() {
-
-	}
 
 	/**
 	 * /?path=controller/action
