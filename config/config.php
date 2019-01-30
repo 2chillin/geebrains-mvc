@@ -8,5 +8,8 @@ return [
 		"dsn"=>"mysql:host=localhost;dbname=shop",
 		"user"=>"alex",
 		"password"=>"1q2w3e"
+	],
+
+	"router" => [
 	]
 ];
