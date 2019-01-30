@@ -10,25 +10,56 @@ class ProductController extends FrontController {
 
 	public function action_index() {
 
-		$customer = new CustomerModel();
-		$customerCollection = $customer->getCustomers();
+		$categoryModel = new CategoryModel();
+		$categories = $categoryModel->getAllCategories();
 
 		$this->view->render("product/index", [
-			"title"					=> $this->config->get("title"),
-			"customerCollection"	=> $customerCollection
+			"categories" => $categories
 		]);
 	}
 
-	public function action_new() {
+	/**
+	 * /?path=product/category&id=1
+	 */
+	public function action_category() {
 
-		if (!$this->request->isPost()) {
-			return $this->view->render("error500");				
-		}
+		$id = $this->request->get("id");
+		$categoryModel = new CategoryModel();
+		$categoryWithProducts = $categoryModel->getCategoryWithProducts($id);
 
-		return $this->view->render("product/new", [
-			"title"=>$this->config->get("title"),
-			"name"=>$this->request->get("name"), //$_POST["name"]
+		return $this->view->render("product/category", [
+			"categoryWithProducts"=>$categoryWithProducts
 		]);		
 	}	
 
+	/**
+	 * /?path=product/show&id=1
+	 */
+	public function action_show() {
+
+		$id = $this->request->get("id");
+
+		$goodsModel = new GoodsModel();
+		$product = $goodsModel->getById($id);
+
+		return $this->view->render("product/show", [
+			"product"=>$product
+		]);		
+	}
+
+	/**
+	 * /?path=product/add_to_basket&id=1
+	 */
+	public function action_add_to_basket() {
+
+		$user = $this->session->get("user");
+		$id = $this->request->get("id");
+
+		$basketModel = new BasketModel();
+		$result = $basketModel->create($user, $id);
+
+		return $this->view->render("product/show", [
+			"result"=>$result
+		]);		
+	}	
 }

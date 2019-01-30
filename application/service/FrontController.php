@@ -9,20 +9,33 @@ class FrontController {
 	protected 
 		$view,
 		$config,
-		$request;
+		$request,
+		$session;
 	
 	public function __construct() {
+		$this->session = Service::get("session");
 		$this->view = Service::view();
 		$this->config = Service::config();
 		$this->request = Service::request();
 	}
 
+	protected function before() {
+		return true;
+	}
+
+	protected function after() {
+		return true;
+	}
 
 	/**
 	 * /?path=controller/action
 	 * Ex: /?path=home/index
 	 */
 	public function run() {
+
+		if ($_SERVER['REQUEST_URI'] == "/") {
+			$this->request->set("path", "home/index");
+		}
 		
 		if (is_null($this->request->get("path"))) {
 			throw new \Exception("Wrong path");
@@ -43,6 +56,14 @@ class FrontController {
 			return $this->view->render("error500");
 		}
 
-		return $controller->{"action_".$action}();
+		if (!$this->before()){
+			return $this->view->render("error500");
+		}
+
+		$result = $controller->{"action_".$action}();
+
+		$this->after();
+
+		return $result;
 	}
 }

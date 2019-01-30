@@ -19,4 +19,11 @@ class HomeController extends FrontController {
 		]);
 	}
 
+	public function action_show() {
+		return $this->view->render("home/index", [
+			"title"=>$this->config->get("title"),
+			"version"=>$this->config->get("version"),
+		]);
+	}	
+
 }
