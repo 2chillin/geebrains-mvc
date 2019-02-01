@@ -36,7 +36,7 @@ class FrontController {
 		if ($_SERVER['REQUEST_URI'] == "/") {
 			$this->request->set("path", "home/index");
 		}
-		
+
 		if (is_null($this->request->get("path"))) {
 			throw new \Exception("Wrong path");
 		}
@@ -56,13 +56,13 @@ class FrontController {
 			return $this->view->render("error500");
 		}
 
-		if (!$this->before()){
+		if (!$controller->before()){
 			return $this->view->render("error500");
 		}
 
 		$result = $controller->{"action_".$action}();
 
-		$this->after();
+		$controller->after();
 
 		return $result;
 	}

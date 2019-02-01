@@ -2,8 +2,9 @@
 
 namespace application\controller;
 
+use \application\service\FrontController;
 use \application\service\Service;
-use \application\controller\BaseController;
+use \application\model\AuthModel;
 use \application\model\UserModel;
 
 /**
@@ -16,7 +17,7 @@ class AuthController extends BaseController {
 			"title"=>$this->config->get("title"),
 			"version"=>$this->config->get("version")
 		]);
-	}	
+	}
 
 	/**
 	 * /?path=auth/login
@@ -28,13 +29,12 @@ class AuthController extends BaseController {
 		}
 
 		$login = $this->request->getPost("login");
-		$password = $this->request->getPost("password");
+		$password = $this->request->getPost("pass");
 
 		$userModel = new UserModel();
 		$user = $userModel->getUserByNameAndPassword($login, $password);
-
-		$authModel = new AuthModel();
-		$authModel->createSession($user);
+		$this->session->set("user", $user[0]['login']);
+		$this->request->redirect('./?path=user/index');
 	}
 
 	/**
@@ -42,6 +42,6 @@ class AuthController extends BaseController {
 	 */
 	public function action_logout() {
 		$this->session->destroy();
-		$this->request->redirect("/?path=home/index");
+		$this->request->redirect("./?path=home/index");
 	}	
 }
