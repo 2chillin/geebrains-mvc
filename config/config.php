@@ -5,11 +5,8 @@ return [
 	"version" => "0.0.1",
 
 	"db"=>[
-		"dsn"=>"mysql:host=localhost;dbname=shop",
-		"user"=>"alex",
-		"password"=>"1q2w3e"
-	],
-
-	"router" => [
+		"dsn"=>"mysql:host=192.168.1.10;dbname=mvc",
+		"user"=>"mvc",
+		"password"=>"12345"
 	]
 ];

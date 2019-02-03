@@ -2,34 +2,24 @@
 
 namespace application\controller;
 
-use \application\service\Service;
 use \application\service\FrontController;
-use \application\model\CustomerModel;
+use \application\model\UserModel;
+
 
 class UserController extends FrontController {
 
-	public function before() {
-		if (!$this->session->get("user")) {
-			$this->request->redirect("/?path=auth/index");
-		}
-
-		return true;
-	}
-
 	public function action_index() {
 
+		$this->session->get("user");
 		$user = $this->session->get("user");
-
-		$userModel = new UserModel();
-		$user = $userModel->getUserById($user["id"]);
-
 		return $this->view->render("user/index", [
-			"user" => $user
+			"user" => $user,
+			"title" => "Личный кабинет"
 		]);
 	}
 
 	public function after() {
-		//
+		return true;
 	}
 
 	public function action_update() {

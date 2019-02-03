@@ -2,9 +2,9 @@
 
 namespace application\controller;
 
-use \application\service\Service;
 use \application\service\FrontController;
-use \application\model\CustomerModel;
+use \application\model\CategoryModel;
+
 
 class ProductController extends FrontController {
 
@@ -14,6 +14,7 @@ class ProductController extends FrontController {
 		$categories = $categoryModel->getAllCategories();
 
 		$this->view->render("product/index", [
+			"title" => "Каталог товаров",
 			"categories" => $categories
 		]);
 	}

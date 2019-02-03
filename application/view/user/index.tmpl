@@ -2,19 +2,22 @@
 <head></head>
 <body>
 <h2>{{title}}</h2>
-
-{% if auth %}
-    <p>Добро пожаловать, {{ auth }}!</p>
+{% include 'menu.tmpl' %}
+{% if user %}
+    <p>Добро пожаловать, {{ user }}!</p>
     <p>{{ message }}</p>
-    <form method="post" action="?path=profile/logout">
+    <ul>
+        <li><a href="./?path=orders/index">Заказы</a></li>
+    </ul>
+    <form method="post" action="?path=auth/logout">
         <button type="submit">Выйти</button>
     </form>
 {% endif %}
 
-{% if auth==false %}
+{% if user==false %}
     <p>Для использования личного кабинета необходима авторизация!</p>
     <p>{{ message }}</p>
-    <form method="post" action="?path=profile/login">
+    <form method="post" action="./?path=auth/login">
         <label for='login'>Логин: </label><input type="text" name="login"><br><br>
         <label for='pass'>Пароль: </label><input type="text" name="pass"><br><br>
         <button type="submit">Войти</button>
