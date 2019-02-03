@@ -2,11 +2,13 @@
 
 namespace application\controller;
 
-use \application\service\FrontController;
+use \application\service\Service;
+use \application\controller\BaseController;
 use \application\model\CategoryModel;
+use \application\model\BasketModel;
+use \application\model\GoodsModel;
 
-
-class ProductController extends FrontController {
+class ProductController extends BaseController {
 
 	public function action_index() {
 
@@ -14,7 +16,6 @@ class ProductController extends FrontController {
 		$categories = $categoryModel->getAllCategories();
 
 		$this->view->render("product/index", [
-			"title" => "Каталог товаров",
 			"categories" => $categories
 		]);
 	}
@@ -57,10 +58,8 @@ class ProductController extends FrontController {
 		$id = $this->request->get("id");
 
 		$basketModel = new BasketModel();
-		$result = $basketModel->create($user, $id);
+		$result = $basketModel->create($user["id"], $id);
 
-		return $this->view->render("product/show", [
-			"result"=>$result
-		]);		
+		$this->request->redirect("/?path=product/index");	
 	}	
 }

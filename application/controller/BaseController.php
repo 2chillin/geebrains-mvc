@@ -7,4 +7,9 @@ use \application\service\FrontController;
 
 class BaseController extends FrontController {
 
+	public function before() {
+		$this->view->addGlobal('title', $this->config->get("title"));
+		$this->view->addGlobal('user', $this->session->get("user"));
+		return true;
+	}
 }

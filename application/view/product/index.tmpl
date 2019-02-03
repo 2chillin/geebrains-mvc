@@ -1,20 +1,25 @@
-<html>
-  <head></head>
-  <body>
-	<h2>{{title}}</h2>
+{% include 'templates/header.tmpl' %}
 
-    {% include 'menu.tmpl' %}
+<div class="container">
+	<h4>Categories</h4>
+	<table class="table table-striped text-left">
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th></th>
+		</tr>
+		{% for category in categories %}
+		<tr>
+			<td>{{category.id}}</td>
+			<td>{{category.name}}</td>
+			<td>
+				<a href="/?path=product/category&id={{category.id}}" class="btn btn-success btn-small" style="display:inline;">
+					Show products
+				</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
 
-	<ul>
-	{% for customer in customerCollection %}
-		<li>{{customer.firstname}} {{customer.secondname}}</li>
-	{% endfor %}
-	</ul>
-	
-	<form method="post" action="/public/?path=product/new">
-		<input type="text" name="name"/>
-		<input type="submit" value="New" />
-	</form>
-
-  </body>
-</html>
+{% include 'templates/footer.tmpl' %}

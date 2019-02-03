@@ -3,13 +3,9 @@
 define("BASE_PATH", dirname(dirname(__FILE__)));
 define("APP", dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR."/application");
 
-require_once APP.DIRECTORY_SEPARATOR.'service'.DIRECTORY_SEPARATOR.'Autoloader.php';
-require_once APP.DIRECTORY_SEPARATOR.'service'.DIRECTORY_SEPARATOR.'Twig'.DIRECTORY_SEPARATOR.'Autoloader.php';
+require_once BASE_PATH.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
 
 try {
-
-	\Twig_Autoloader::register();
-	\application\service\Autoloader::register();
 
 	$loader = new \Twig_Loader_Filesystem(APP.DIRECTORY_SEPARATOR.'view');
 	$twig = new \Twig_Environment($loader);
@@ -18,6 +14,8 @@ try {
 	 * Supporting objects
 	 */
 	$session = new \application\service\Session();
+	$session->start();
+
 	$view = new \application\service\View($twig);
 	$config = new \application\service\Config();
 	$request = new \application\service\Request();

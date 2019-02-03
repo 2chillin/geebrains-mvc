@@ -3,9 +3,9 @@
 namespace application\controller;
 
 use \application\service\Service;
-use \application\service\FrontController;
+use \application\controller\BaseController;
 
-class HomeController extends FrontController {
+class HomeController extends BaseController {
 
 	protected function before() {
 		parent::before();
@@ -13,17 +13,11 @@ class HomeController extends FrontController {
 	}
 
 	public function action_index() {
-		return $this->view->render("home/index", [
-			"title"=>$this->config->get("title"),
-			"version"=>$this->config->get("version")
-		]);
+		return $this->view->render("home/index");
 	}
 
-	public function action_show() {
-		return $this->view->render("home/index", [
-			"title"=>$this->config->get("title"),
-			"version"=>$this->config->get("version"),
-		]);
+	public function action_about() {
+		return $this->view->render("home/index");
 	}	
 
 }
