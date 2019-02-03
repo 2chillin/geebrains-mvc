@@ -13,7 +13,7 @@ class FrontController {
 		$session;
 	
 	public function __construct() {
-		$this->session = Service::get("session");
+		$this->session = Service::session();
 		$this->view = Service::view();
 		$this->config = Service::config();
 		$this->request = Service::request();
@@ -36,7 +36,7 @@ class FrontController {
 		if ($_SERVER['REQUEST_URI'] == "/") {
 			$this->request->set("path", "home/index");
 		}
-
+		
 		if (is_null($this->request->get("path"))) {
 			throw new \Exception("Wrong path");
 		}

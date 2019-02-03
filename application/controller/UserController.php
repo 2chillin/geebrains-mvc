@@ -2,24 +2,40 @@
 
 namespace application\controller;
 
-use \application\service\FrontController;
+use \application\service\Service;
+use \application\controller\BaseController;
 use \application\model\UserModel;
 
+class UserController extends BaseController {
 
-class UserController extends FrontController {
+	public function before() {
+		if (!$this->session->get("user")) {
+			$this->request->redirect("/?path=auth/index");
+		}
+
+		parent::before();
+
+		return true;
+	}
+
+	public static function calculate(){
+		Service::request()->get("user_id");
+	}
 
 	public function action_index() {
 
-		$this->session->get("user");
 		$user = $this->session->get("user");
+
+		$userModel = new UserModel();
+		$user = $userModel->getUserById($user["id"]);
+
 		return $this->view->render("user/index", [
-			"user" => $user,
-			"title" => "Личный кабинет"
+			"user" => $user
 		]);
 	}
 
 	public function after() {
-		return true;
+		//
 	}
 
 	public function action_update() {

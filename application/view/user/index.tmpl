@@ -1,28 +1,23 @@
-<html>
-<head></head>
-<body>
-<h2>{{title}}</h2>
-{% include 'menu.tmpl' %}
-{% if user %}
-    <p>Добро пожаловать, {{ user }}!</p>
-    <p>{{ message }}</p>
-    <ul>
-        <li><a href="./?path=orders/index">Заказы</a></li>
-    </ul>
-    <form method="post" action="?path=auth/logout">
-        <button type="submit">Выйти</button>
-    </form>
-{% endif %}
+{% include 'templates/header.tmpl' %}
 
-{% if user==false %}
-    <p>Для использования личного кабинета необходима авторизация!</p>
-    <p>{{ message }}</p>
-    <form method="post" action="./?path=auth/login">
-        <label for='login'>Логин: </label><input type="text" name="login"><br><br>
-        <label for='pass'>Пароль: </label><input type="text" name="pass"><br><br>
-        <button type="submit">Войти</button>
-    </form>
-{% endif %}
+<div class="container">
+	<h4>My profile</h4>
+		<table class="table table-striped">
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th></th>
+			</tr>
+			<tr>
+				<td>{{user.name}}</td>
+				<td>{{user.login}}</td>
+				<td>
+					<a href="/?path=user/edit" class="btn btn-success btn-small" style="display:inline;">
+						Edit
+					</a>
+				</td>
+			</tr>
+		</table>
+</div>
 
-</body>
-</html>
+{% include 'templates/footer.tmpl' %}

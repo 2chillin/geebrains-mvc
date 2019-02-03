@@ -41,5 +41,20 @@ class Service {
             return self::$_registry["request"];
         }
 	}	
+
+	public static function session()
+    {
+        if(isset(self::$_registry["session"]))
+        {
+            return self::$_registry["session"];
+        }
+	}
 	
+	public static function cookie()
+    {
+        if(isset(self::$_registry["cookie"]))
+        {
+            return self::$_registry["cookie"];
+        }
+	}
 }

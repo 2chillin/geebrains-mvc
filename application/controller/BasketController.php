@@ -5,6 +5,7 @@ namespace application\controller;
 use \application\service\Service;
 use \application\controller\BaseController;
 use \application\model\BasketModel;
+use \application\model\OrderModel;
 
 /**
  * /?path=basket/{action}
@@ -14,8 +15,8 @@ class BasketController extends BaseController {
 	public function action_index() {
 
 		$user = $this->session->get("user");
-		$basketModel = new BasketModel();
 		
+		$basketModel = new BasketModel();
 		$items = $basketModel->getUserItems($user["id"]);
 
 		return $this->view->render("basket/index", [
@@ -43,15 +44,12 @@ class BasketController extends BaseController {
 	}	
 
 	public function action_order() {
-		if (!$this->request->isPost()) {
-			$this->request->redirect("/?path=basket/index");				
-		}
-
 		$user = $this->session->get("user");
-		$goods = $this->request->get("goods");
+		$good_id = $this->request->get("id");
+		$amount = $this->request->get("amount");
 		
 		$orderModel = new OrderModel();
-		$orderModel->create($user, $goods);
+		$orderModel->create($user["id"], $good_id, $amount);
 
 		$this->request->redirect("/?path=basket/index");
 	}	

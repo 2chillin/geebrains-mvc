@@ -2,9 +2,8 @@
 
 namespace application\controller;
 
-use \application\service\FrontController;
 use \application\service\Service;
-use \application\model\AuthModel;
+use \application\controller\BaseController;
 use \application\model\UserModel;
 
 /**
@@ -12,12 +11,19 @@ use \application\model\UserModel;
  */
 class AuthController extends BaseController {
 
-	public function action_index() {
-		return $this->view->render("auth/index", [
-			"title"=>$this->config->get("title"),
-			"version"=>$this->config->get("version")
-		]);
+	public function before() {
+		parent::before();
+
+		if ($this->session->get("user") && !($this->request->get("path") == "auth/logout")) {
+			$this->request->redirect("/?path=user/index");
+		}
+
+		return true;
 	}
+
+	public function action_index() {
+		return $this->view->render("auth/index");
+	}	
 
 	/**
 	 * /?path=auth/login
@@ -29,19 +35,55 @@ class AuthController extends BaseController {
 		}
 
 		$login = $this->request->getPost("login");
-		$password = $this->request->getPost("pass");
+		$password = $this->request->getPost("password");
 
 		$userModel = new UserModel();
 		$user = $userModel->getUserByNameAndPassword($login, $password);
-		$this->session->set("user", $user[0]['login']);
-		$this->request->redirect('./?path=user/index');
+
+		if (!$user) {
+			$this->request->redirect("/?path=auth/index");
+		}
+
+		$this->session->set("user", $user);
+		$this->request->redirect("/?path=user/index");
 	}
+
+	/**
+	 * /?path=auth/signup
+	 */
+	public function action_signup() {
+		return $this->view->render("auth/signup");
+	}
+
+	/**
+	 * /?path=auth/register
+	 */
+	public function action_register() {
+
+		if (!$this->request->isPost()) {
+			$this->request->redirect("/?path=auth/signup&message=Post is required");
+		}
+
+		$firstname = $this->request->getPost("firstname");
+		$login = $this->request->getPost("login");
+		$password = $this->request->getPost("password");
+
+		if (!$login || !$password) {
+			$this->request->redirect("/?path=auth/signup&message=Login and password are required");
+		}
+
+		$userModel = new UserModel();
+		$userModel->createUser($firstname, $login, $password);
+
+		$this->session->set("user", $user);
+		$this->request->redirect("/?path=user/index");
+	}	
 
 	/**
 	 * /?path=auth/logout
 	 */
 	public function action_logout() {
 		$this->session->destroy();
-		$this->request->redirect("./?path=home/index");
+		$this->request->redirect("/?path=auth/index");
 	}	
 }
