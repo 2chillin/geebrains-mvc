@@ -1,12 +1,13 @@
 <?php
 
+namespace tests;
+
 use tests\BaseTest;
 use application\model\UserModel;
 
 final class UserModelTest extends BaseTest
 {
-
-	public function testUserIsExisted(){
+	 public function testUserIsExisted(){
 		$userModel = new UserModel();
 		$user = $userModel->getUserById(1);
 		$this->assertEquals(array(), $user); 
