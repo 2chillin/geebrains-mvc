@@ -1,0 +1,15 @@
+.cat-item-image {
+    border: 1px solid #eee;
+    width: 420px;
+    padding: 10px;
+    float: left;
+    margin-bottom: 10px;
+}
+.product-info {
+    float: right;
+    max-width: 600px;
+    text-align: right;
+}
+.price span {
+    color: #c82333;
+}

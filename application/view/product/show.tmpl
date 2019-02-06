@@ -2,24 +2,17 @@
 
 <div class="container">
 	<h4>{{product.name}}</h4>
-	<table class="table table-striped text-left">
-		<tr>
-			<th>Id</th>
-			<th>Name</th>
-			<th>Price</th>
-			<th>Add to basket</th>
-		</tr>
-		<tr>
-			<td>{{product.id}}</td>
-			<td>{{product.name}}</td>
-			<td>{{product.price}}</td>
-			<td>
-				<a href="/?path=product/add_to_basket&id={{product.id}}" class="btn btn-success btn-small" style="display:inline;">
-					Add product to basket
-				</a>
-			</td>
-		</tr>
-	</table>
+	<div class="cat-item-image">
+		<img src="public/img/product/{{ product.picture }}">
+	</div>
+	<div class="product-info">
+        <p class="price"><b>Price:</b> <span>{{product.price}} rub.</span></p>
+		<p class="decription"><b>Description:</b><br>{{ product.description }}</p>
+        <a href="/?path=product/add_to_basket&id={{product.id}}" class="btn btn-success btn-small" style="display:inline;">
+            Add product to basket
+        </a>
+	</div>
 </div>
+
 
 {% include 'templates/footer.tmpl' %}
